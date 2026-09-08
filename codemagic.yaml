@@ -13,24 +13,18 @@ workflows:
         - $HOME/.pnpm-store
 
     scripts:
-      - name: Setup pnpm
+      - name: Install pnpm
         script: |
-          corepack enable
-          COREPACK_HOME="$HOME/.corepack"
-          export COREPACK_HOME
-          corepack prepare pnpm@10.26.1 --activate
-          export PATH="$COREPACK_HOME/shims:$PATH"
+          npm install -g pnpm@10.26.1
           pnpm --version
 
       - name: Install dependencies
         script: |
-          export PATH="$HOME/.corepack/shims:$PATH"
           cd "$CM_BUILD_DIR"
           pnpm install --frozen-lockfile
 
       - name: Generate iOS project
         script: |
-          export PATH="$HOME/.corepack/shims:$PATH"
           cd "$CM_BUILD_DIR/artifacts/rashodnik"
           pnpm exec expo prebuild --platform ios --no-install
           test -d ios
