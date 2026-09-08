@@ -14,14 +14,28 @@
         "NSFaceIDUsageDescription": "Face ID используется для безопасной разблокировки приложения Расходник."
       }
     },
-    "android": {},
+    "android": {
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
+    },
     "web": {
       "favicon": "./assets/images/icon.png"
     },
-    "plugins": ["expo-router", "expo-local-authentication"],
+    "plugins": [
+      "expo-router",
+      "expo-local-authentication"
+    ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "238e3418-32e2-4028-a73f-58e4ca4abb64"
+      }
+    },
+    "owner": "replit-private-e6f8caa1-6011-4881-bc33-34ccaa3400e9"
   }
 }
