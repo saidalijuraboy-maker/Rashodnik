@@ -13,6 +13,15 @@ workflows:
           mkdir -p "$HOME/pnpm-bin"
           npm install --prefix "$HOME/pnpm-bin" pnpm@10.26.1
           "$HOME/pnpm-bin/node_modules/.bin/pnpm" install --frozen-lockfile
+      
+      - name: Check Expo authentication
+        script: |
+          if [ -n "$EXPO_TOKEN" ]; then
+            echo "EXPO_TOKEN is available"
+          else
+            echo "EXPO_TOKEN is NOT available"
+            exit 1
+          fi
 
       - name: Build iOS with EAS
         script: |
