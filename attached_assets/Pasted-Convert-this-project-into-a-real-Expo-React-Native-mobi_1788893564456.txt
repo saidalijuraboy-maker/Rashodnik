@@ -1,0 +1,81 @@
+Convert this project into a real Expo React Native mobile application for iOS.
+
+IMPORTANT:
+- This must be a MOBILE APP, not a website.
+- Use Expo + React Native + TypeScript.
+- Use Expo Router.
+- Do NOT use a web app, HTML/CSS website, Next.js, or WKWebView.
+- The application name is "Расходник".
+- The app must be ready for iOS and Expo EAS Build.
+
+Create the required Expo project structure:
+- app/
+- assets/
+- components/
+- lib/
+- app.json
+- eas.json
+- package.json
+
+Configure:
+- iOS bundle identifier: com.rashodnik.app
+- Display name: Расходник
+- Russian interface
+- Currency: Tajikistani Somoni (сомони)
+
+Implement the complete finance app:
+1. Dashboard
+2. Accounts:
+   - Наличные
+   - DC
+   - Амонатбанк
+   - Алиф
+3. Income
+4. Expenses
+5. Transfers
+6. Transaction history
+7. Categories and subcategories
+8. Analytics
+9. Debts:
+   - Мне должны
+   - Я должен
+   - Debt payments
+   - Payment history
+10. Search and filters
+11. Edit/delete transactions
+12. Dark mode
+13. Settings
+14. JSON export/import
+15. Offline local data persistence
+
+Transaction arrows:
+- Expense = ↑
+- Income = ↓
+
+SECURITY:
+Use expo-local-authentication for Face ID / Touch ID.
+Add NSFaceIDUsageDescription:
+"Face ID используется для безопасной разблокировки приложения Расходник."
+
+The app must have:
+- Lock screen
+- Face ID unlock
+- fallback authentication
+- lock when the app goes to background
+- no storage of biometric data
+
+Make sure all dependencies are correctly installed and configured.
+
+IMPORTANT:
+Do not just create a description or mockup.
+Actually create and configure the complete working Expo React Native source code in this Replit project.
+
+After completing the conversion, verify that:
+- package.json contains Expo and React Native dependencies
+- app.json exists
+- eas.json exists
+- app/ exists
+- the project can run with Expo
+- TypeScript has no errors
+
+Do not delete the existing project until the new mobile project is successfully created.

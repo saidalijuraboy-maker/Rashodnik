@@ -76,12 +76,15 @@ interface FinanceContextValue {
   incomeTotal: number;
   expenseTotal: number;
   addTransaction: (input: Omit<Transaction, 'id' | 'date'> & { date?: string }) => void;
+  updateTransaction: (id: string, input: Partial<Omit<Transaction, 'id'>>) => void;
   deleteTransaction: (id: string) => void;
   addAccount: (name: string, initialBalance: number) => void;
   deleteAccount: (id: string) => void;
   addDebt: (input: { person: string; amount: number; note: string; direction: DebtDirection }) => void;
   payDebt: (debtId: string, amount: number, accountId: string, note: string) => void;
   deleteDebt: (id: string) => void;
+  addCategory: (name: string, color?: string) => void;
+  addSubcategory: (categoryName: string, name: string) => void;
   setTheme: (theme: AppSettings['theme']) => void;
   setFaceIdEnabled: (value: boolean) => Promise<boolean>;
   unlock: () => Promise<boolean>;
@@ -165,8 +168,40 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     }));
   }, [updateData]);
 
+  const updateTransaction = useCallback((id: string, input: Partial<Omit<Transaction, 'id'>>) => {
+    updateData((current) => {
+      const existing = current.transactions.find((item) => item.id === id);
+      if (!existing) return current;
+      const updated = { ...existing, ...input };
+      let debts = current.debts;
+      if (existing.type === 'debt' && existing.debtId && typeof input.amount === 'number') {
+        const difference = updated.amount - existing.amount;
+        debts = current.debts.map((debt) => debt.id === existing.debtId ? {
+          ...debt,
+          remainingAmount: Math.max(0, debt.remainingAmount - difference),
+          payments: debt.payments.map((payment) => payment.id === existing.paymentId ? { ...payment, amount: updated.amount, accountId: updated.accountId, note: updated.note } : payment),
+        } : debt);
+      }
+      return { ...current, debts, transactions: current.transactions.map((item) => item.id === id ? updated : item) };
+    });
+  }, [updateData]);
+
   const deleteTransaction = useCallback((id: string) => {
-    updateData((current) => ({ ...current, transactions: current.transactions.filter((item) => item.id !== id) }));
+    updateData((current) => {
+      const transaction = current.transactions.find((item) => item.id === id);
+      if (!transaction) return current;
+      return {
+        ...current,
+        debts: transaction.type === 'debt' && transaction.debtId
+          ? current.debts.map((debt) => debt.id === transaction.debtId ? {
+            ...debt,
+            remainingAmount: Math.min(debt.originalAmount, debt.remainingAmount + transaction.amount),
+            payments: debt.payments.filter((payment) => payment.id !== transaction.paymentId),
+          } : debt)
+          : current.debts,
+        transactions: current.transactions.filter((item) => item.id !== id),
+      };
+    });
   }, [updateData]);
 
   const addAccount = useCallback((name: string, initialBalance: number) => {
@@ -198,13 +233,28 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       return {
         ...current,
         debts: current.debts.map((item) => item.id === debtId ? { ...item, remainingAmount: item.remainingAmount - amount, payments: [...item.payments, payment] } : item),
-        transactions: [...current.transactions, { id: nextId('transaction'), type: 'debt', amount, accountId, debtId, debtDirection: debt.direction, category: 'Долги', source: debt.person, note: note || `Платёж: ${debt.person}`, date: payment.date }],
+        transactions: [...current.transactions, { id: nextId('transaction'), type: 'debt', amount, accountId, debtId, paymentId: payment.id, debtDirection: debt.direction, category: 'Долги', source: debt.person, note: note || `Платёж: ${debt.person}`, date: payment.date }],
       };
     });
   }, [updateData]);
 
   const deleteDebt = useCallback((id: string) => {
     updateData((current) => ({ ...current, debts: current.debts.filter((item) => item.id !== id) }));
+  }, [updateData]);
+
+  const addCategory = useCallback((name: string, color = palette[0]) => {
+    updateData((current) => current.categories.some((item) => item.name.toLowerCase() === name.toLowerCase())
+      ? current
+      : { ...current, categories: [...current.categories, { name, color, items: ['Другое'] }] });
+  }, [updateData]);
+
+  const addSubcategory = useCallback((categoryName: string, name: string) => {
+    updateData((current) => ({
+      ...current,
+      categories: current.categories.map((item) => item.name === categoryName && !item.items.includes(name)
+        ? { ...item, items: [...item.items, name] }
+        : item),
+    }));
   }, [updateData]);
 
   const setTheme = useCallback((theme: AppSettings['theme']) => {
@@ -260,8 +310,8 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<FinanceContextValue>(() => ({
     data, ready, locked, accountsWithBalance, totalBalance: accountsWithBalance.reduce((sum, item) => sum + item.balance, 0), incomeTotal, expenseTotal,
-    addTransaction, deleteTransaction, addAccount, deleteAccount, addDebt, payDebt, deleteDebt, setTheme, setFaceIdEnabled, unlock, exportBackup, importBackup, resetData, accountBalance,
-  }), [data, ready, locked, accountsWithBalance, incomeTotal, expenseTotal, addTransaction, deleteTransaction, addAccount, deleteAccount, addDebt, payDebt, deleteDebt, setTheme, setFaceIdEnabled, unlock, exportBackup, importBackup, resetData, accountBalance]);
+    addTransaction, updateTransaction, deleteTransaction, addAccount, deleteAccount, addDebt, payDebt, deleteDebt, addCategory, addSubcategory, setTheme, setFaceIdEnabled, unlock, exportBackup, importBackup, resetData, accountBalance,
+  }), [data, ready, locked, accountsWithBalance, incomeTotal, expenseTotal, addTransaction, updateTransaction, deleteTransaction, addAccount, deleteAccount, addDebt, payDebt, deleteDebt, addCategory, addSubcategory, setTheme, setFaceIdEnabled, unlock, exportBackup, importBackup, resetData, accountBalance]);
 
   return <FinanceContext.Provider value={value}>{children}</FinanceContext.Provider>;
 }

@@ -20,6 +20,7 @@ export interface Transaction {
   note?: string;
   date: string;
   debtId?: string;
+  paymentId?: string;
   debtDirection?: DebtDirection;
 }
 
