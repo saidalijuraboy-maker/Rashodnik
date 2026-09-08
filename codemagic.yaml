@@ -13,23 +13,26 @@ workflows:
         - $HOME/.pnpm-store
 
     scripts:
-      - name: Install pnpm
+      - name: Setup pnpm
         script: |
-          curl -fsSL https://get.pnpm.io/install.sh | sh -
-          export PATH="$HOME/.local/share/pnpm:$PATH"
+          corepack enable
+          COREPACK_HOME="$HOME/.corepack"
+          export COREPACK_HOME
+          corepack prepare pnpm@10.26.1 --activate
+          export PATH="$COREPACK_HOME/shims:$PATH"
           pnpm --version
 
-      - name: Install workspace dependencies
+      - name: Install dependencies
         script: |
-          export PATH="$HOME/.local/share/pnpm:$PATH"
+          export PATH="$HOME/.corepack/shims:$PATH"
           cd "$CM_BUILD_DIR"
           pnpm install --frozen-lockfile
 
       - name: Generate iOS project
         script: |
-          export PATH="$HOME/.local/share/pnpm:$PATH"
+          export PATH="$HOME/.corepack/shims:$PATH"
           cd "$CM_BUILD_DIR/artifacts/rashodnik"
-          CI=1 pnpm exec expo prebuild --platform ios --no-install
+          pnpm exec expo prebuild --platform ios --no-install
           test -d ios
 
     artifacts:
