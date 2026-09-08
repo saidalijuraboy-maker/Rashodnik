@@ -8,28 +8,22 @@ workflows:
       xcode: latest
       cocoapods: default
 
-    cache:
-      cache_paths:
-        - $HOME/.pnpm-store
-
     scripts:
-      - name: Check pnpm
+      - name: Install standalone pnpm
         script: |
-          cd "$CM_BUILD_DIR"
-          export COREPACK_ENABLE_PROJECT_SPEC=0
-          pnpm --version
+          mkdir -p "$HOME/pnpm-bin"
+          npm install --prefix "$HOME/pnpm-bin" pnpm@10.26.1
+          "$HOME/pnpm-bin/node_modules/.bin/pnpm" --version
 
       - name: Install dependencies
         script: |
           cd "$CM_BUILD_DIR"
-          export COREPACK_ENABLE_PROJECT_SPEC=0
-          pnpm install --frozen-lockfile
+          "$HOME/pnpm-bin/node_modules/.bin/pnpm" install --frozen-lockfile
 
       - name: Generate iOS project
         script: |
           cd "$CM_BUILD_DIR/artifacts/rashodnik"
-          export COREPACK_ENABLE_PROJECT_SPEC=0
-          pnpm exec expo prebuild --platform ios --no-install
+          "$HOME/pnpm-bin/node_modules/.bin/pnpm" exec expo prebuild --platform ios --no-install
           test -d ios
 
     artifacts:
