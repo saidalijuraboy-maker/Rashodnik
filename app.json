@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "656582e8-caa9-4363-9582-18ee08289e4b"
+      }
+    },
+    "owner": "s17zzzs-team",
+    "ios": {
+      "bundleIdentifier": "com.rashodnik.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    }
+  }
+}
