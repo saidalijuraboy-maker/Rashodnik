@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/"
+title = "Расходник"
+description = "Standalone offline-first Russian personal finance app for iPhone. Tracks accounts, income, expenses, transfers, debts, history, analytics, local backups, and Face ID app protection in Tajikistani somoni."
+version = "1.0.0"
+id = "artifacts/rashodnik"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/" ]
+localPort = 22299
+
+[services.development]
+run = "pnpm --filter @workspace/rashodnik run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rashodnik", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/rashodnik", "run", "serve" ]
+
+[services.env]
+PORT = "22299"
+BASE_PATH = "/"

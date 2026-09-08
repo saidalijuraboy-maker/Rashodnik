@@ -1,0 +1,1 @@
+- [Expo native package installs](expo-native-package-installs.md) — Scoped workspace installs may need the package manager's filter-aware command rather than a root-level add.

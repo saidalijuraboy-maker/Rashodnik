@@ -1,0 +1,520 @@
+Create a complete standalone mobile application called "Расходник" (Rashodnik).
+
+IMPORTANT:
+This is a REAL mobile application project, not a website.
+
+TECHNOLOGY:
+
+* Expo
+* React Native
+* TypeScript
+* Expo Router
+* React Native components
+* Compatible with Expo EAS Build
+* iOS-first design
+* Android compatibility is optional, but iOS is the priority
+
+DO NOT:
+
+* Create a website
+* Create a web-only application
+* Use WKWebView
+* Wrap a website inside a mobile application
+* Use HTML/CSS as the main UI
+* Depend on Replit at runtime
+* Depend on an external website for the core application
+* Create only a prototype or mockup
+
+The exported project must be a complete standalone Expo React Native project that can later be downloaded and built with Expo EAS.
+
+APP LANGUAGE:
+Russian.
+
+CURRENCY:
+Tajikistani Somoni (TJS / сомони).
+
+APP NAME:
+Расходник
+
+PROJECT NAME:
+Rashodnik
+
+PLACEHOLDER BUNDLE ID:
+com.rashodnik.app
+
+========================================
+MAIN NAVIGATION
+===============
+
+Bottom navigation:
+
+1. Главная
+2. История
+3. Аналитика
+4. Ещё
+
+========================================
+ACCOUNTS
+========
+
+Create default accounts:
+
+* Наличные
+* DC
+* Амонатбанк
+* Алиф
+
+Each account must have:
+
+* Name
+* Balance
+* Transaction history
+* Edit
+* Delete where appropriate
+
+The total balance must automatically update.
+
+========================================
+MAIN DASHBOARD
+==============
+
+Show:
+
+* Общий баланс
+* Доходы
+* Расходы
+* Счета
+* Последние операции
+
+Use:
+
+Income:
+green downward arrow ↓
+
+Expense:
+red upward arrow ↑
+
+Quick actions:
+
+* Потратил деньги ↑
+* Получил деньги ↓
+* Перевод
+* Долг
+
+========================================
+EXPENSES
+========
+
+Expense fields:
+
+* Amount
+* Category
+* Subcategory
+* Account
+* Note
+* Date
+
+Expense categories:
+
+Еда:
+
+* Продукты
+* Ресторан
+* Кафе
+* Доставка
+
+Транспорт:
+
+* Такси
+* Автобус
+* Маршрутка
+* Бензин
+* Ремонт
+
+Развлечения:
+
+* Компьютерные игры
+* Бильярд
+* Кино
+* Игры
+
+Дом:
+
+* Коммунальные услуги
+* Интернет
+* Телефон
+* Ремонт
+
+Покупки:
+
+* Одежда
+* Обувь
+* Электроника
+* Другое
+
+Здоровье:
+
+* Аптека
+* Врач
+* Другое
+
+Other:
+
+* Другое
+
+Allow custom categories and subcategories.
+
+========================================
+INCOME
+======
+
+Income fields:
+
+* Amount
+* Source
+* Account
+* Note
+* Date
+
+Income must increase the selected account balance.
+
+========================================
+TRANSFERS
+=========
+
+Support transfers between accounts.
+
+Fields:
+
+* From account
+* To account
+* Amount
+* Note
+* Date
+
+Transfers must:
+
+* subtract money from the source account
+* add money to the destination account
+* NOT count as income
+* NOT count as expense
+
+Prevent transfers between the same account.
+
+========================================
+HISTORY
+=======
+
+Create complete transaction history.
+
+Features:
+
+* Group by date
+* Search
+* Filter by account
+* Filter by type
+* Filter by category
+* Filter by date
+* Edit
+* Delete
+
+Transaction types:
+
+* Доход
+* Расход
+* Перевод
+* Погашение долга
+
+Show:
+
+* Icon
+* Description
+* Category
+* Date
+* Account
+* Amount
+
+========================================
+ANALYTICS
+=========
+
+Create an analytics dashboard.
+
+Show:
+
+* Income
+* Expenses
+* Balance change
+* Expense categories
+* Income sources
+* Account statistics
+
+Periods:
+
+* Неделя
+* Месяц
+* Год
+* Всё время
+
+Use native React Native charts.
+
+========================================
+DEBTS
+=====
+
+Create a dedicated Долги section.
+
+Tabs:
+
+* Мне должны
+* Я должен
+
+Debt fields:
+
+* Person
+* Original amount
+* Remaining amount
+* Note
+* Creation date
+* Payment history
+* Status
+
+Support:
+
+* Add debt
+* Edit debt
+* Delete debt
+* Partial payment
+* Full payment
+
+When paying a debt:
+
+* correctly update the selected account
+* correctly update remaining debt
+* create a transaction
+* preserve payment history
+
+========================================
+SECURITY / FACE ID
+==================
+
+Implement application locking.
+
+Use:
+
+expo-local-authentication
+
+Requirements:
+
+* Settings → Защита приложения
+* Toggle: Разблокировка Face ID
+* Lock the application when it enters the background according to a reasonable lock policy
+* Require authentication when reopening
+* Protect all financial information
+* Create a clean lock screen
+* Button: Разблокировать с помощью Face ID
+* Support Face ID on compatible iPhones
+* Use native iOS biometric authentication
+* Never store or access facial data
+* Provide appropriate system authentication fallback when possible
+
+Add iOS permission:
+
+NSFaceIDUsageDescription
+
+Russian permission text:
+
+"Face ID используется для безопасной разблокировки приложения Расходник."
+
+Make sure the configuration is compatible with EAS Build.
+
+Do not rely on Expo Go for Face ID.
+
+========================================
+LOCAL DATA
+==========
+
+The application must work completely offline.
+
+Use reliable local persistent storage appropriate for Expo React Native.
+
+Persist:
+
+* Accounts
+* Transactions
+* Debts
+* Categories
+* Settings
+* App lock settings
+
+Data must survive:
+
+* App restart
+* Phone restart
+* Closing the application
+
+Never reset the user's data during normal startup.
+
+Centralize database/storage operations.
+
+========================================
+DATA VALIDATION
+===============
+
+Validate:
+
+* Empty fields
+* Invalid amounts
+* Zero amounts
+* Negative amounts
+* Missing account
+* Invalid debt payment
+* Invalid transfer
+
+Never allow incorrect balance calculations.
+
+When editing or deleting a transaction, correctly recalculate affected balances.
+
+========================================
+SETTINGS
+========
+
+Create settings:
+
+* Светлая тема
+* Тёмная тема
+* Системная тема
+* Face ID
+* Защита приложения
+* Управление счетами
+* Управление категориями
+* Экспорт данных
+* Импорт данных
+* Сброс данных
+
+========================================
+UI / UX
+=======
+
+Create a premium modern iPhone-first interface.
+
+Requirements:
+
+* Native iOS feeling
+* Clean typography
+* Rounded cards
+* Smooth animations
+* Large readable balances
+* Proper spacing
+* Dark mode
+* Light mode
+* Accessible buttons
+* Responsive iPhone layouts
+* No web-style interface
+
+Use Russian throughout the application.
+
+========================================
+DATA EXPORT / IMPORT
+====================
+
+Allow users to export their financial data into a JSON file.
+
+Allow importing a previously exported JSON backup.
+
+Validate imported data before replacing current data.
+
+Never silently delete existing data.
+
+========================================
+PROJECT STRUCTURE
+=================
+
+Use a clean professional architecture.
+
+Suggested structure:
+
+app/
+components/
+screens/
+services/
+store/
+database/
+utils/
+types/
+assets/
+
+Use reusable components.
+
+Keep business logic separate from UI.
+
+========================================
+IOS CONFIGURATION
+=================
+
+Prepare:
+
+app.json or app.config.ts
+
+Configure:
+
+* App name
+* Bundle identifier
+* iOS settings
+* Face ID permission
+* Version
+* Build number
+
+Create:
+
+eas.json
+
+with appropriate profiles:
+
+development
+preview
+production
+
+The project must be ready for Expo EAS Build.
+
+========================================
+TESTING
+=======
+
+Before finishing:
+
+* Run the project
+* Check for TypeScript errors
+* Check navigation
+* Test adding income
+* Test adding expense
+* Test transfers
+* Test debts
+* Test debt payments
+* Test history
+* Test analytics
+* Test dark mode
+* Test persistent storage
+* Check Face ID configuration
+* Fix obvious errors
+
+========================================
+FINAL REQUIREMENT
+=================
+
+The final result must be a COMPLETE Expo React Native source project.
+
+I need to be able to:
+
+1. Download the source code.
+2. Run it independently from Replit.
+3. Upload it to GitHub.
+4. Build it with Expo EAS.
+5. Produce an iOS IPA.
+6. Install the application on my iPhone.
+
+Do not only provide code snippets.
+
+Create the actual project files and keep the project structure complete.
+
+Do not use Replit as a required backend or runtime dependency.

@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Расходник",
+    "slug": "rashodnik",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "rashodnik",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.rashodnik.app",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Face ID используется для безопасной разблокировки приложения Расходник."
+      }
+    },
+    "android": {},
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": ["expo-router", "expo-local-authentication"],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
