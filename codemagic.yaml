@@ -4,20 +4,20 @@ workflows:
     max_build_duration: 60
 
     environment:
-      flutter: stable
-      xcode: latest
-      cocoapods: default
+      node: 22.14.0
 
     scripts:
-      - name: Get Flutter packages
+      - name: Install dependencies
         script: |
-          flutter pub get
+          cd "$CM_BUILD_DIR"
+          mkdir -p "$HOME/pnpm-bin"
+          npm install --prefix "$HOME/pnpm-bin" pnpm@10.26.1
+          "$HOME/pnpm-bin/node_modules/.bin/pnpm" install --frozen-lockfile
 
-      - name: Build iOS IPA
+      - name: Build iOS with EAS
         script: |
-          flutter build ipa --release --no-codesign
+          cd "$CM_BUILD_DIR/artifacts/rashodnik"
+          npx eas-cli build --platform ios --profile production --non-interactive
 
     artifacts:
-      - build/ios/ipa/*.ipa
-      - build/ios/archive/*.xcarchive
-      - build/ios/iphoneos/*.app
+      - artifacts/rashodnik/**/*.ipa
