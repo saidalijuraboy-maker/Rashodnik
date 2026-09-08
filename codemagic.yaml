@@ -4,28 +4,20 @@ workflows:
     max_build_duration: 60
 
     environment:
-      node: 22.14.0
+      flutter: stable
       xcode: latest
       cocoapods: default
 
     scripts:
-      - name: Install standalone pnpm
+      - name: Get Flutter packages
         script: |
-          mkdir -p "$HOME/pnpm-bin"
-          npm install --prefix "$HOME/pnpm-bin" pnpm@10.26.1
-          "$HOME/pnpm-bin/node_modules/.bin/pnpm" --version
+          flutter pub get
 
-      - name: Install dependencies
+      - name: Build iOS IPA
         script: |
-          cd "$CM_BUILD_DIR"
-          "$HOME/pnpm-bin/node_modules/.bin/pnpm" install --frozen-lockfile
-
-      - name: Generate iOS project
-        script: |
-          cd "$CM_BUILD_DIR/artifacts/rashodnik"
-          "$HOME/pnpm-bin/node_modules/.bin/pnpm" exec expo prebuild --platform ios --no-install
-          test -d ios
+          flutter build ipa --release --no-codesign
 
     artifacts:
-      - artifacts/rashodnik/ios/**/*.xcworkspace
-      - artifacts/rashodnik/ios/**/*.xcodeproj
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
+      - build/ios/iphoneos/*.app
