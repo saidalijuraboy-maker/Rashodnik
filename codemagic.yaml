@@ -2,28 +2,36 @@ workflows:
   rashodnik-ios:
     name: Rashodnik iOS
     max_build_duration: 60
+
     environment:
       node: 22.14.0
       xcode: latest
       cocoapods: default
+
     cache:
       cache_paths:
         - $HOME/.pnpm-store
+
     scripts:
-      - name: Enable pnpm
+      - name: Install pnpm
         script: |
-          corepack enable
-          corepack prepare pnpm@10.26.1 --activate
+          curl -fsSL https://get.pnpm.io/install.sh | sh -
+          export PATH="$HOME/.local/share/pnpm:$PATH"
           pnpm --version
+
       - name: Install workspace dependencies
         script: |
+          export PATH="$HOME/.local/share/pnpm:$PATH"
           cd "$CM_BUILD_DIR"
           pnpm install --frozen-lockfile
-      - name: Generate the iOS native project
+
+      - name: Generate iOS project
         script: |
+          export PATH="$HOME/.local/share/pnpm:$PATH"
           cd "$CM_BUILD_DIR/artifacts/rashodnik"
           CI=1 pnpm exec expo prebuild --platform ios --no-install
           test -d ios
+
     artifacts:
       - artifacts/rashodnik/ios/**/*.xcworkspace
       - artifacts/rashodnik/ios/**/*.xcodeproj
