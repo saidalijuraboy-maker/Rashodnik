@@ -1,1 +1,2 @@
 - [Expo native package installs](expo-native-package-installs.md) — Scoped workspace installs may need the package manager's filter-aware command rather than a root-level add.
+- [Expo SDK 57 diagnostics](expo-sdk57-dependency-checks.md) — Local Expo CLI may not implement `doctor`; use the standalone `expo-doctor` command for the compatibility check.

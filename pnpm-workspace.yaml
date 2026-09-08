@@ -33,12 +33,6 @@ minimumReleaseAgeExclude:
   # this setting guards against does not apply to our own packages.
   - '@replit/*'
   - stripe-replit-sync
-  - expo
-  - expo-glass-effect
-  - expo-router
-  - '@expo/*'
-  - babel-preset-expo
-  - expo-modules-core
 
 packages:
   - artifacts/*
